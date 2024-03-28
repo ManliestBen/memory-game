@@ -29,6 +29,8 @@ const messageEl = document.getElementById('message')
 const buttonContainer = document.querySelector('.button-container')
 const resetButtonContainer = document.querySelector('.reset-button-container')
 const resetBtn = document.getElementById('reset')
+const cardContainerEl = document.querySelector('.card-container')
+
 
 /*----------------- Event Listeners ----------------*/
 buttonContainer.addEventListener('click', handleSelectDifficulty)
@@ -39,9 +41,23 @@ resetBtn.addEventListener('click', handleReset)
 init()
 
 function handleSelectDifficulty(evt) {
-  console.log(evt.target.id)
+  gameDeck = generateDeck(evt.target.id)
   gameIsInPlay = true
+  console.log(gameDeck)
   render()
+}
+
+function generateDeck(difficulty){
+  let pairsToAdd = difficultyOptions[difficulty]
+  let deckCopy = [...allCards]
+  let cardsToAdd = []
+  
+  for (let i = 1; i <= pairsToAdd; i++ ) {
+    let randIdx = Math.floor(Math.random() * deckCopy.length)
+    let cardToAdd = deckCopy.splice(randIdx, 1)
+    cardsToAdd.push(cardToAdd, cardToAdd)
+  }
+  return cardsToAdd
 }
 
 function handleReset() {
@@ -64,12 +80,12 @@ function render() {
   }
 }
 
-// reset button
-// element to display timer
-// card container element to append cards in play
+
+// TODO element to display timer
+
 
 // PSEUDOCODE:
-// init function to set initial state variables
+//// init function to set initial state variables
   // make sure timer isn't already running before starting game
 // function to handle difficulty selection
   // add this to an event listener on difficulty buttons
