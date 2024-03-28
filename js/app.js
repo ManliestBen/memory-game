@@ -97,6 +97,11 @@ function render() {
     resetButtonContainer.style.display = 'none'
     buttonContainer.style.display = ''
   }
+  gameDeck.forEach(cardObj => {
+    let newCardEl = document.createElement('div')
+    newCardEl.className = 'card xlarge tot'
+    cardContainerEl.appendChild(newCardEl)
+  })
 }
 
 
