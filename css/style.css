@@ -14,7 +14,7 @@ nav {
   justify-content: center;
   align-items: center;
   background-color: rgb(194, 211, 194);
-  margin-bottom: 64px;
+  margin-bottom: 32px;
 }
 
 nav > img {
@@ -35,4 +35,19 @@ h3 {
   gap: 16px;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+button {
+  border: none;
+  background-color: #ca9147;
+  font-size: 24px;
+  margin: 8px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
 
