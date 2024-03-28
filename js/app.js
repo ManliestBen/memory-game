@@ -62,7 +62,11 @@ function tick() {
   if (timeRemaining === 0) {
     clearInterval(timerIntervalId)
     // display a loss message
-    setMessage(`Time is up, you missed ${numPairsToFind} matches!  You've been TOTTED!`)
+    if (numPairsToFind === 1) {
+      setMessage(`Time is up, you missed ${numPairsToFind} match!  You've been TOTTED!`)
+    } else {
+      setMessage(`Time is up, you missed ${numPairsToFind} matches!  You've been TOTTED!`)
+    }
   }
 }
 
@@ -96,10 +100,18 @@ function compareCards() {
     setTimeout(flipCardsBackOver, 1500)
   } else {
     // cards match
-    setMessage(`You found a match! ${numPairsToFind} pairs left!`)
+    numPairsToFind -= 1
+    if (numPairsToFind === 1) {
+      setMessage(`You found a match! ${numPairsToFind} pair left!`)
+    } else {
+      setMessage(`You found a match! ${numPairsToFind} pairs left!`)
+    }
     gameDeck[selectedIdx1].isMatched = true
     gameDeck[selectedIdx2].isMatched = true
-    numPairsToFind -= 1
+    if (!numPairsToFind) {
+      clearInterval(timerIntervalId)
+      setMessage('You found all the matches and defeated the evil TOT!')
+    }
   }
 }
 
@@ -171,13 +183,13 @@ function render() {
     // card can be already matched
     if (cardObj.currentlySelected || cardObj.isMatched) {
       let newCardEl = document.createElement('div')
-      newCardEl.className = `card xlarge ${cardObj.cardName}`
+      newCardEl.className = `card large ${cardObj.cardName}`
       newCardEl.id = `card-${idx}`
       cardContainerEl.appendChild(newCardEl)
     } else {
       // card can be hidden
       let newCardEl = document.createElement('div')
-      newCardEl.className = 'card xlarge tot'
+      newCardEl.className = 'card large tot'
       newCardEl.id = `card-${idx}`
       cardContainerEl.appendChild(newCardEl)
     }
