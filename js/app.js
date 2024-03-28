@@ -54,10 +54,22 @@ function generateDeck(difficulty){
   
   for (let i = 1; i <= pairsToAdd; i++ ) {
     let randIdx = Math.floor(Math.random() * deckCopy.length)
-    let cardToAdd = deckCopy.splice(randIdx, 1)
+    let cardToAdd = deckCopy.splice(randIdx, 1)[0]
     cardsToAdd.push(cardToAdd, cardToAdd)
   }
-  return cardsToAdd
+  return shuffleCards(cardsToAdd)
+}
+
+function shuffleCards(cards) {
+  console.log(cards)
+  let cardsToShuffle = [...cards]
+  let numTimesToShuffle = cardsToShuffle.length
+  let shuffledCards = []
+  for (i = 0; i < numTimesToShuffle; i++) {
+    let randIdx = Math.floor(Math.random() * cardsToShuffle.length)
+    shuffledCards.push(cardsToShuffle.splice(randIdx, 1)[0])
+  }
+  return shuffledCards
 }
 
 function handleReset() {
