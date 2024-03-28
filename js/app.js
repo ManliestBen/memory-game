@@ -49,23 +49,33 @@ function init() {
 
 
 function handleSelectCard(evt) {
-  let cardIdx = parseInt(evt.target.id.substring(5))
-  if (turn === 1) {
-    selectedIdx1 = cardIdx
-    gameDeck[cardIdx].currentlySelected = true
-    console.log(gameDeck[cardIdx])
-    turn *= -1
-  } else {
-    selectedIdx2 = cardIdx
-    gameDeck[cardIdx].currentlySelected = true
-    compareCards()
-    turn *= -1
+  if (evt.target.classList.contains('card')) {
+    let cardIdx = parseInt(evt.target.id.substring(5))
+    if (turn === 1) {
+      selectedIdx1 = cardIdx
+      gameDeck[cardIdx].currentlySelected = true
+      console.log(gameDeck[cardIdx])
+      turn *= -1
+    } else {
+      selectedIdx2 = cardIdx
+      gameDeck[cardIdx].currentlySelected = true
+      compareCards()
+      turn *= -1
+    }
+    render()
   }
-  render()
 }
 
 function compareCards() {
   console.log(gameDeck[selectedIdx1],gameDeck[selectedIdx2])
+  // cards don't match
+  if (gameDeck[selectedIdx1].cardName !== gameDeck[selectedIdx2].cardName) {
+    setTimeout(flipCardsBackOver, 1500)
+  } else {
+    // cards match
+    gameDeck[selectedIdx1].isMatched = true
+    gameDeck[selectedIdx2].isMatched = true
+  }
 }
 
 function handleSelectDifficulty(evt) {
@@ -107,6 +117,13 @@ function buildCardObjects(cards) {
   return cardObjects
 }
 
+function flipCardsBackOver() {
+  // set the gameDeck[selectedIdx].currentlySelected back to false
+  gameDeck[selectedIdx1].currentlySelected = false
+  gameDeck[selectedIdx2].currentlySelected = false
+  // render
+  render()
+}
 
 
 function render() {
