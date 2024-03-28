@@ -34,7 +34,7 @@ const cardContainerEl = document.querySelector('.card-container')
 
 /*----------------- Event Listeners ----------------*/
 buttonContainer.addEventListener('click', handleSelectDifficulty)
-resetBtn.addEventListener('click', handleReset)
+resetBtn.addEventListener('click', init)
 
 
 /*------------------- Functions ---------------------*/
@@ -79,13 +79,10 @@ function buildCardObjects(cards) {
   return cardObjects
 }
 
-function handleReset() {
-  gameIsInPlay = false
-  render()
-}
 
 function init() {
   gameIsInPlay = false
+  gameDeck = []
   render()
 }
 
@@ -97,6 +94,7 @@ function render() {
     resetButtonContainer.style.display = 'none'
     buttonContainer.style.display = ''
   }
+  cardContainerEl.innerHTML = ''
   gameDeck.forEach(cardObj => {
     let newCardEl = document.createElement('div')
     newCardEl.className = 'card xlarge tot'
