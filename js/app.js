@@ -52,12 +52,16 @@ function handleSelectCard(evt) {
   let cardIdx = parseInt(evt.target.id.substring(5))
   if (turn === 1) {
     selectedIdx1 = cardIdx
+    gameDeck[cardIdx].currentlySelected = true
+    console.log(gameDeck[cardIdx])
     turn *= -1
   } else {
     selectedIdx2 = cardIdx
+    gameDeck[cardIdx].currentlySelected = true
     compareCards()
     turn *= -1
   }
+  render()
 }
 
 function compareCards() {
@@ -115,10 +119,21 @@ function render() {
   }
   cardContainerEl.innerHTML = ''
   gameDeck.forEach((cardObj, idx) => {
-    let newCardEl = document.createElement('div')
-    newCardEl.className = 'card xlarge tot'
-    newCardEl.id = `card-${idx}`
-    cardContainerEl.appendChild(newCardEl)
+
+    // card can be a current selection (only 2x)
+    // card can be already matched
+    if (cardObj.currentlySelected || cardObj.isMatched) {
+      let newCardEl = document.createElement('div')
+      newCardEl.className = `card xlarge ${cardObj.cardName}`
+      newCardEl.id = `card-${idx}`
+      cardContainerEl.appendChild(newCardEl)
+    } else {
+      // card can be hidden
+      let newCardEl = document.createElement('div')
+      newCardEl.className = 'card xlarge tot'
+      newCardEl.id = `card-${idx}`
+      cardContainerEl.appendChild(newCardEl)
+    }
   })
 }
 
