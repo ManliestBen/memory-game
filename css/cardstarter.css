@@ -320,6 +320,7 @@
   background-image: url("../images/backs/red.svg"); }
 .card.tot {
   background-image: url("../images/tot.png");
+  background-color: rgb(194, 211, 194);
 }
 /* Re-orients the cards for different directions. While
    they are symmetric, it's still important to orient
