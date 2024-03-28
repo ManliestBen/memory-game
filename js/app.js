@@ -42,8 +42,8 @@ init()
 
 function handleSelectDifficulty(evt) {
   gameDeck = generateDeck(evt.target.id)
-  gameIsInPlay = true
   console.log(gameDeck)
+  gameIsInPlay = true
   render()
 }
 
@@ -69,7 +69,14 @@ function shuffleCards(cards) {
     let randIdx = Math.floor(Math.random() * cardsToShuffle.length)
     shuffledCards.push(cardsToShuffle.splice(randIdx, 1)[0])
   }
-  return shuffledCards
+  return buildCardObjects(shuffledCards)
+}
+
+function buildCardObjects(cards) {
+  let cardObjects = cards.map(card => {
+    return {cardName: card, currentlySelected: false, isMatched: false}
+  })
+  return cardObjects
 }
 
 function handleReset() {
