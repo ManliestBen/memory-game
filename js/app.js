@@ -18,9 +18,9 @@ const difficultyOptions = {
 let gameDeck = []
 // create a variable numCards to represent difficulty
 let numCards
-// create two variables cardA / cardB to store cards picked
-let cardA, cardB
-let gameIsInPlay
+// create two variables selectedIdx1/selectedIdx2 to store cards picked
+let selectedIdx1, selectedIdx2
+let gameIsInPlay, turn
 
 /*------------- Cached Element References -----------*/
 
@@ -35,10 +35,34 @@ const cardContainerEl = document.querySelector('.card-container')
 /*----------------- Event Listeners ----------------*/
 buttonContainer.addEventListener('click', handleSelectDifficulty)
 resetBtn.addEventListener('click', init)
-
+cardContainerEl.addEventListener('click', handleSelectCard)
 
 /*------------------- Functions ---------------------*/
 init()
+
+function init() {
+  gameIsInPlay = false
+  gameDeck = []
+  turn = 1
+  render()
+}
+
+
+function handleSelectCard(evt) {
+  let cardIdx = parseInt(evt.target.id.substring(5))
+  if (turn === 1) {
+    selectedIdx1 = cardIdx
+    turn *= -1
+  } else {
+    selectedIdx2 = cardIdx
+    compareCards()
+    turn *= -1
+  }
+}
+
+function compareCards() {
+  console.log(gameDeck[selectedIdx1],gameDeck[selectedIdx2])
+}
 
 function handleSelectDifficulty(evt) {
   gameDeck = generateDeck(evt.target.id)
@@ -80,11 +104,6 @@ function buildCardObjects(cards) {
 }
 
 
-function init() {
-  gameIsInPlay = false
-  gameDeck = []
-  render()
-}
 
 function render() {
   if (gameIsInPlay) {
@@ -95,9 +114,10 @@ function render() {
     buttonContainer.style.display = ''
   }
   cardContainerEl.innerHTML = ''
-  gameDeck.forEach(cardObj => {
+  gameDeck.forEach((cardObj, idx) => {
     let newCardEl = document.createElement('div')
     newCardEl.className = 'card xlarge tot'
+    newCardEl.id = `card-${idx}`
     cardContainerEl.appendChild(newCardEl)
   })
 }
