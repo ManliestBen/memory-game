@@ -20,7 +20,8 @@ let gameDeck = []
 let numCards
 // create two variables selectedIdx1/selectedIdx2 to store cards picked
 let selectedIdx1, selectedIdx2
-let gameIsInPlay, turn
+let gameIsInPlay, turn, numPairsToFind, timeRemaining,
+timerIntervalId, cantClickYet
 
 /*------------- Cached Element References -----------*/
 
@@ -42,19 +43,40 @@ init()
 
 function init() {
   gameIsInPlay = false
+  cantClickYet = false
   gameDeck = []
   turn = 1
   render()
 }
 
+function startTimer() {
+  if (timerIntervalId) {
+    clearInterval(timerIntervalId)
+  }
+  timerIntervalId = setInterval(tick, 1000)
+}
+
+function tick() {
+  console.log(timeRemaining)
+  timeRemaining -= 1
+  if (timeRemaining === 0) {
+    clearInterval(timerIntervalId)
+    // display a loss message
+    setMessage(`Time is up, you missed ${numPairsToFind} matches!  You've been TOTTED!`)
+  }
+}
+
+function setMessage(message) {
+  messageEl.textContent = message
+}
 
 function handleSelectCard(evt) {
-  if (evt.target.classList.contains('card')) {
+  if (evt.target.classList.contains('card') && !cantClickYet) {
     let cardIdx = parseInt(evt.target.id.substring(5))
     if (turn === 1) {
+      setMessage('Find the match!')
       selectedIdx1 = cardIdx
       gameDeck[cardIdx].currentlySelected = true
-      console.log(gameDeck[cardIdx])
       turn *= -1
     } else {
       selectedIdx2 = cardIdx
@@ -67,20 +89,27 @@ function handleSelectCard(evt) {
 }
 
 function compareCards() {
-  console.log(gameDeck[selectedIdx1],gameDeck[selectedIdx2])
   // cards don't match
   if (gameDeck[selectedIdx1].cardName !== gameDeck[selectedIdx2].cardName) {
+    cantClickYet = true
+    setMessage("You've been TOTTED!  No match!")
     setTimeout(flipCardsBackOver, 1500)
   } else {
     // cards match
+    setMessage(`You found a match! ${numPairsToFind} pairs left!`)
     gameDeck[selectedIdx1].isMatched = true
     gameDeck[selectedIdx2].isMatched = true
+    numPairsToFind -= 1
   }
 }
 
 function handleSelectDifficulty(evt) {
   gameDeck = generateDeck(evt.target.id)
+  numPairsToFind = difficultyOptions[evt.target.id]
   console.log(gameDeck)
+  timeRemaining = 5 * difficultyOptions[evt.target.id]
+  startTimer()
+  setMessage('Please select a card!')
   gameIsInPlay = true
   render()
 }
@@ -99,7 +128,6 @@ function generateDeck(difficulty){
 }
 
 function shuffleCards(cards) {
-  console.log(cards)
   let cardsToShuffle = [...cards]
   let numTimesToShuffle = cardsToShuffle.length
   let shuffledCards = []
@@ -121,7 +149,9 @@ function flipCardsBackOver() {
   // set the gameDeck[selectedIdx].currentlySelected back to false
   gameDeck[selectedIdx1].currentlySelected = false
   gameDeck[selectedIdx2].currentlySelected = false
+  cantClickYet = false
   // render
+  setMessage('Please select a card!')
   render()
 }
 
