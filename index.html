@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./css/cardstarter.css">
   <link rel="stylesheet" href="./css/style.css">
-  <script src="./js/app.js"></script>
+  <script defer src="./js/app.js"></script>
   <title>Document</title>
 </head>
 <body>
@@ -13,10 +13,14 @@
     <img src="./images/tot.png" alt="a tater tot">
     <h3>Tot Potato - A Memory Game</h3>
   </nav>
+  <h1 id="message">Please select a difficulty to start!</h1>
   <div class="button-container">
     <button id="easy">Easy</button>
     <button id="medium">Medium</button>
     <button id="hard">Hard</button>
+  </div>
+  <div class="reset-button-container">
+    <button id="reset">Reset</button>
   </div>
   <div class="card-container">
     <div class="card tot xlarge"></div>

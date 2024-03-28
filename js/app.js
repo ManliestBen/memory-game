@@ -1,15 +1,69 @@
+/*------------------ Constants --------------------*/
+
 // create an allCards variable that holds all possible card options
 const allCards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"]
+
+const difficultyOptions = {
+  easy: 5,
+  medium: 8,
+  hard: 12
+}
+
+/*--------------- Variables (state) ----------------*/
+
 // create a gameDeck variable that holds the cards in play
   // should be an array of objects
   // example objects:
     // {face: 'dA', currentPick: true/false, matched: true/false}
+let gameDeck = []
 // create a variable numCards to represent difficulty
+let numCards
 // create two variables cardA / cardB to store cards picked
+let cardA, cardB
+let gameIsInPlay
 
-// navbar with game title (h1)
+/*------------- Cached Element References -----------*/
+
 // message element to display messages (h1 / h2?)
-// button(s) to select difficulty
+const messageEl = document.getElementById('message')
+const buttonContainer = document.querySelector('.button-container')
+const resetButtonContainer = document.querySelector('.reset-button-container')
+const resetBtn = document.getElementById('reset')
+
+/*----------------- Event Listeners ----------------*/
+buttonContainer.addEventListener('click', handleSelectDifficulty)
+resetBtn.addEventListener('click', handleReset)
+
+
+/*------------------- Functions ---------------------*/
+init()
+
+function handleSelectDifficulty(evt) {
+  console.log(evt.target.id)
+  gameIsInPlay = true
+  render()
+}
+
+function handleReset() {
+  gameIsInPlay = false
+  render()
+}
+
+function init() {
+  gameIsInPlay = false
+  render()
+}
+
+function render() {
+  if (gameIsInPlay) {
+    resetButtonContainer.style.display = ''
+    buttonContainer.style.display = 'none'
+  } else {
+    resetButtonContainer.style.display = 'none'
+    buttonContainer.style.display = ''
+  }
+}
+
 // reset button
 // element to display timer
 // card container element to append cards in play

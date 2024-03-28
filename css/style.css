@@ -35,7 +35,7 @@ h3 {
   gap: 16px;
 }
 
-.button-container {
+.button-container, .reset-button-container {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
